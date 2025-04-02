@@ -50,19 +50,24 @@ function createPost() {
     const title = document.getElementById('postTitle').value;
     const content = document.getElementById('postContent').value;
     const location = document.getElementById('postLocation').value;
+    const imageInput = document.getElementById('postImage');
     
-    if (!title || !content) {
+    if (!title || !content || !location) {
         alert('Please fill in all fields');
         return;
     }
 
-    const post = {
-        id: Date.now(),
-        title,
-        content,
-        location,
-        date: new Date().toLocaleDateString()
-    };
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const post = {
+            id: Date.now(),
+            title,
+            content,
+            location,
+            image: imageInput.files.length > 0 ? e.target.result : null,
+            date: new Date().toLocaleDateString(),
+            comments: []
+        };
 
     posts.unshift(post);
     localStorage.setItem('blogPosts', JSON.stringify(posts));
@@ -77,11 +82,33 @@ function displayPosts() {
         <div class="blog-post">
             <span class="location-badge">${post.location}</span>
             <h3>${post.title}</h3>
+            ${post.image ? `<img src="${post.image}" class="post-image" alt="${post.title}">` : ''}
             <p>${post.content}</p>
             <small>${post.date}</small>
             ${isAdmin ? `<button class="edit-button" onclick="editPost(${post.id})">Edit</button>` : ''}
+            <div class="comments-section">
+                <h4>Comments</h4>
+                ${post.comments.map(comment => `
+                    <div class="comment">${comment}</div>
+                `).join('')}
+                <input type="text" class="comment-input" placeholder="Add a comment">
+                <button onclick="addComment(${post.id}, this.previousElementSibling)">Comment</button>
+            </div>
         </div>
     `).join('');
+}
+
+function addComment(postId, inputElement) {
+    const comment = inputElement.value.trim();
+    if (!comment) return;
+    
+    const post = posts.find(p => p.id === postId);
+    if (post) {
+        post.comments.push(comment);
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        displayPosts();
+    }
+    inputElement.value = '';
 }
 
 // Edit post

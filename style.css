@@ -121,3 +121,41 @@ button:hover {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
 }
+
+.post-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.comments-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+.comment {
+    background: #f5f5f5;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+}
+
+.comment-input {
+    width: calc(100% - 100px);
+    margin-right: 8px;
+}
+
+#imagePreview {
+    max-width: 100%;
+    margin: 1rem 0;
+}
+
+#imagePreview img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
