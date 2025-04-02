@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Deals</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <nav>
+        <h1>Travel Deals</h1>
+        <a href="index.html">Home</a>
+        <a href="#" id="membershipBtn">Become VIP</a>
+    </nav>
+
+    <main>
+        <section id="regular-deals">
+            <h2>Regular Travel Deals</h2>
+            <div class="deals-grid">
+                <div class="deal-card">
+                    <h3>Paris Gateway</h3>
+                    <p>Starting from $599</p>
+                </div>
+                <div class="deal-card">
+                    <h3>Dubai Experience</h3>
+                    <p>Starting from $799</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="vip-section" style="display: none;">
+            <h2>🔥 VIP Exclusive Deals</h2>
+            <div class="deals-grid">
+                <div class="deal-card premium">
+                    <h3>Paris VIP Package</h3>
+                    <p><s>$599</s> $299</p>
+                    <span class="vip-badge">50% OFF</span>
+                </div>
+                <div class="deal-card premium">
+                    <h3>Dubai Luxury Stay</h3>
+                    <p><s>$799</s> $479</p>
+                    <span class="vip-badge">40% OFF</span>
+                </div>
+            </div>
+        </section>
+
+        <div id="membership-modal" class="modal">
+            <div class="modal-content">
+                <h2>🚀 Become a Travel VIP!</h2>
+                <p>Subscribe and unlock <strong>exclusive travel deals</strong> with discounts up to <b>50% OFF</b> on flights & hotels! 💰</p>
+                <button id="subscribeBtn">💳 Get VIP Access - $10/month</button>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
