@@ -10,6 +10,18 @@ let isAdmin = false;
 
 // Event Listeners
 loginBtn.addEventListener('click', () => loginModal.style.display = 'block');
+const backBtn = document.getElementById('backBtn');
+
+backBtn.addEventListener('click', () => {
+    adminPanel.style.display = 'none';
+    loginModal.style.display = 'none';
+    backBtn.style.display = 'none';
+});
+
+// Show back button when needed
+loginBtn.addEventListener('click', () => {
+    backBtn.style.display = 'block';
+});
 document.getElementById('submitPassword').addEventListener('click', checkPassword);
 document.getElementById('createPost').addEventListener('click', createPost);
 

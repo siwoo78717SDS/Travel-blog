@@ -19,9 +19,23 @@ nav {
     justify-content: space-between;
 }
 
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
 nav a {
     color: white;
     text-decoration: none;
+}
+
+#backBtn {
+    color: #fff;
+    cursor: pointer;
+}
+
+#backBtn:hover {
+    color: #ddd;
 }
 
 main {
