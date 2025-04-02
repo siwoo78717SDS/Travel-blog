@@ -69,8 +69,32 @@ function createPost() {
             comments: []
         };
 
-    posts.unshift(post);
-    localStorage.setItem('blogPosts', JSON.stringify(posts));
+        posts.unshift(post);
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        adminPanel.style.display = 'none';
+        displayPosts();
+        clearForm();
+    };
+
+    if (imageInput.files.length > 0) {
+        reader.readAsDataURL(imageInput.files[0]);
+    } else {
+        const post = {
+            id: Date.now(),
+            title,
+            content,
+            location,
+            image: null,
+            date: new Date().toLocaleDateString(),
+            comments: []
+        };
+        
+        posts.unshift(post);
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        adminPanel.style.display = 'none';
+        displayPosts();
+        clearForm();
+    }
     adminPanel.style.display = 'none';
     displayPosts();
     clearForm();
