@@ -1,0 +1,36 @@
+<!--import nltk
+from nltk.chat.util import Chat, reflections
+
+# Define pairs of patterns and responses
+pairs = [
+    [
+        r"hi|hello|hey",
+        ["Hello!", "Hey there!", "Hi :)"]
+    ],
+    [
+        r"how are you ?",
+        ["I'm doing well, thanks!", "Doing great! How about you?"]
+    ],
+    [
+        r"what is your name ?",
+        ["I'm Zero, your friendly chatbot!", "They call me Zero."]
+    ],
+    [
+        r"quit",
+        ["Goodbye! Talk to you later.", "See you soon!"]
+    ],
+    [
+        r"(.*)",
+        ["Tell me more about that.", "I'm not sure I understand.", "Can you elaborate?"]
+    ]
+]
+
+def start_chat():
+    print("Hi, I'm Zero. Type 'quit' to exit.")
+    chat = Chat(pairs, reflections)
+    chat.converse()
+
+if  == "":
+    # Download necessary NLTK data files
+    nltk.download('punkt', quiet=True)
+    start_chat()-->
