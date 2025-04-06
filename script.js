@@ -1,11 +1,21 @@
-
 const ADMIN_PASSWORD = '78717';
 const loginBtn = document.getElementById('loginBtn');
 const loginModal = document.getElementById('login-modal');
 const adminPanel = document.getElementById('admin-panel');
 const blogGrid = document.getElementById('blogGrid');
 
-let posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+let posts = []; // Initialize posts as an empty array
+
+// Fetch posts from ReplDB on page load
+async function loadPosts() {
+    const db = await initReplDB();
+    const storedPosts = await db.get('blogPosts');
+    posts = JSON.parse(storedPosts || '[]');
+    displayPosts();
+}
+
+loadPosts();
+
 let isAdmin = false;
 
 // Event Listeners
@@ -46,31 +56,34 @@ function checkPassword() {
 }
 
 // Create new post
-function createPost() {
+async function createPost() {
     const title = document.getElementById('postTitle').value;
     const content = document.getElementById('postContent').value;
     const location = document.getElementById('postLocation').value;
     const imageInput = document.getElementById('postImage');
-    
-    if (!title || !content || !location) {
+    const category = document.getElementById('postCategory').value;
+
+    if (!title || !content || !location || !category) {
         alert('Please fill in all fields');
         return;
     }
 
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
         const post = {
             id: Date.now(),
             title,
             content,
             location,
+            category,
             image: imageInput.files.length > 0 ? e.target.result : null,
             date: new Date().toLocaleDateString(),
             comments: []
         };
 
         posts.unshift(post);
-        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        const db = await initReplDB();
+        await db.set('blogPosts', JSON.stringify(posts));
         adminPanel.style.display = 'none';
         displayPosts();
         clearForm();
@@ -84,20 +97,19 @@ function createPost() {
             title,
             content,
             location,
+            category,
             image: null,
             date: new Date().toLocaleDateString(),
             comments: []
         };
-        
+
         posts.unshift(post);
-        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        const db = await initReplDB();
+        await db.set('blogPosts', JSON.stringify(posts));
         adminPanel.style.display = 'none';
         displayPosts();
         clearForm();
     }
-    adminPanel.style.display = 'none';
-    displayPosts();
-    clearForm();
 }
 
 // Display posts
@@ -122,27 +134,29 @@ function displayPosts() {
     `).join('');
 }
 
-function addComment(postId, inputElement) {
+async function addComment(postId, inputElement) {
     const comment = inputElement.value.trim();
     if (!comment) return;
-    
+
     const post = posts.find(p => p.id === postId);
     if (post) {
         post.comments.push(comment);
-        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        const db = await initReplDB();
+        await db.set('blogPosts', JSON.stringify(posts));
         displayPosts();
     }
     inputElement.value = '';
 }
 
 // Edit post
-function editPost(id) {
+async function editPost(id) {
     const post = posts.find(p => p.id === id);
     if (!post) return;
 
     document.getElementById('postTitle').value = post.title;
     document.getElementById('postContent').value = post.content;
     document.getElementById('postLocation').value = post.location;
+    document.getElementById('postCategory').value = post.category; // Add category to edit
 
     posts = posts.filter(p => p.id !== id);
     adminPanel.style.display = 'block';
@@ -153,6 +167,7 @@ function clearForm() {
     document.getElementById('postTitle').value = '';
     document.getElementById('postContent').value = '';
     document.getElementById('postLocation').value = 'vietnam';
+    document.getElementById('postCategory').value = 'all'; // Reset category
 }
 
 // Category filtering
@@ -160,11 +175,11 @@ document.getElementById('categories').addEventListener('click', (e) => {
     if (e.target.tagName === 'A') {
         e.preventDefault();
         const category = e.target.dataset.category;
-        
+
         // Update active state
         document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
         e.target.classList.add('active');
-        
+
         // Filter posts
         if (category === 'all') {
             displayPosts();
@@ -196,60 +211,26 @@ function displayFilteredPosts(filteredPosts) {
     `).join('');
 }
 
-// Add category selection to post creation
-function createPost() {
-    const title = document.getElementById('postTitle').value;
-    const content = document.getElementById('postContent').value;
-    const location = document.getElementById('postLocation').value;
-    const imageInput = document.getElementById('postImage');
-    const category = document.getElementById('postCategory').value;
-    
-    if (!title || !content || !location || !category) {
-        alert('Please fill in all fields');
-        return;
-    }
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const post = {
-            id: Date.now(),
-            title,
-            content,
-            location,
-            category,
-            image: imageInput.files.length > 0 ? e.target.result : null,
-            date: new Date().toLocaleDateString(),
-            comments: []
-        };
-
-        posts.unshift(post);
-        localStorage.setItem('blogPosts', JSON.stringify(posts));
-        adminPanel.style.display = 'none';
-        displayPosts();
-        clearForm();
+// Placeholder for ReplDB initialization (replace with actual implementation)
+async function initReplDB() {
+    // Replace this with your actual ReplDB initialization code
+    // This is a placeholder, you'll need to adapt this to your ReplDB setup.
+    return {
+        async get(key) {
+            // Fetch from ReplDB
+            const value = await fetch(`/db?key=${key}`).then(res => res.text());
+            return value;
+        },
+        async set(key, value) {
+            // Save to ReplDB
+            await fetch(`/db`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ key, value })
+              });
+        }
     };
-
-    if (imageInput.files.length > 0) {
-        reader.readAsDataURL(imageInput.files[0]);
-    } else {
-        const post = {
-            id: Date.now(),
-            title,
-            content,
-            location,
-            category,
-            image: null,
-            date: new Date().toLocaleDateString(),
-            comments: []
-        };
-        
-        posts.unshift(post);
-        localStorage.setItem('blogPosts', JSON.stringify(posts));
-        adminPanel.style.display = 'none';
-        displayPosts();
-        clearForm();
-    }
 }
-
-// Initial display
-displayPosts();
