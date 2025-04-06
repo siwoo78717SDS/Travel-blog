@@ -200,7 +200,6 @@ loadPosts();
 let isAdmin = false;
 
 // Event Listeners
-loginBtn.addEventListener('click', () => loginModal.style.display = 'block');
 const backBtn = document.getElementById('backBtn');
 
 backBtn.addEventListener('click', () => {
@@ -213,7 +212,6 @@ backBtn.addEventListener('click', () => {
 loginBtn.addEventListener('click', () => {
     backBtn.style.display = 'block';
 });
-document.getElementById('submitPassword').addEventListener('click', checkPassword);
 document.getElementById('createPost').addEventListener('click', createPost);
 
 // Close modals when clicking outside
