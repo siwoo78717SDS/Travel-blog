@@ -126,11 +126,11 @@ function updateUIForUser() {
             document.getElementById('loginBtn').onclick = () => {
                 adminPanel.style.display = 'block';
                 backBtn.style.display = 'block';
+                showAdminBenefits();
             };
         } else {
             document.getElementById('loginBtn').textContent = 'Add Post';
             document.getElementById('loginBtn').onclick = () => adminPanel.style.display = 'block';
-
         }
     } else {
         authButtons.style.display = 'flex';
@@ -465,6 +465,29 @@ function displayFilteredPosts(filteredPosts) {
 }
 
 
+
+// Show admin benefits
+function showAdminBenefits() {
+    const adminBenefits = `
+        <div class="admin-benefits">
+            <h3>Admin Benefits & Controls:</h3>
+            <ul>
+                <li>Create and edit blog posts</li>
+                <li>Manage all user accounts</li>
+                <li>Ban/unban users (temporary or permanent)</li>
+                <li>Add or remove admin privileges</li>
+                <li>Manage member content access</li>
+                <li>Add new destinations</li>
+                <li>Monitor user activity</li>
+            </ul>
+        </div>
+    `;
+    
+    const adminTabs = document.querySelector('.admin-tabs');
+    if (!document.querySelector('.admin-benefits')) {
+        adminTabs.insertAdjacentHTML('afterend', adminBenefits);
+    }
+}
 
 // Initialize ReplDB
 async function initReplDB() {
