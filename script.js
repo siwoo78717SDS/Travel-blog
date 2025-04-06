@@ -181,7 +181,6 @@ checkBanStatus();
 updateUIForUser();
 
 
-const ADMIN_PASSWORD = '78717';
 const loginBtn = document.getElementById('loginBtn');
 const loginModal = document.getElementById('login-modal');
 const adminPanel = document.getElementById('admin-panel');
