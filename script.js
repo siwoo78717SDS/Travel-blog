@@ -155,5 +155,101 @@ function clearForm() {
     document.getElementById('postLocation').value = 'vietnam';
 }
 
+// Category filtering
+document.getElementById('categories').addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') {
+        e.preventDefault();
+        const category = e.target.dataset.category;
+        
+        // Update active state
+        document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+        e.target.classList.add('active');
+        
+        // Filter posts
+        if (category === 'all') {
+            displayPosts();
+        } else {
+            const filteredPosts = posts.filter(post => post.category === category);
+            displayFilteredPosts(filteredPosts);
+        }
+    }
+});
+
+function displayFilteredPosts(filteredPosts) {
+    blogGrid.innerHTML = filteredPosts.map(post => `
+        <div class="blog-post">
+            <span class="location-badge">${post.location}</span>
+            <h3>${post.title}</h3>
+            ${post.image ? `<img src="${post.image}" class="post-image" alt="${post.title}">` : ''}
+            <p>${post.content}</p>
+            <small>${post.date}</small>
+            ${isAdmin ? `<button class="edit-button" onclick="editPost(${post.id})">Edit</button>` : ''}
+            <div class="comments-section">
+                <h4>Comments</h4>
+                ${post.comments.map(comment => `
+                    <div class="comment">${comment}</div>
+                `).join('')}
+                <input type="text" class="comment-input" placeholder="Add a comment">
+                <button onclick="addComment(${post.id}, this.previousElementSibling)">Comment</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Add category selection to post creation
+function createPost() {
+    const title = document.getElementById('postTitle').value;
+    const content = document.getElementById('postContent').value;
+    const location = document.getElementById('postLocation').value;
+    const imageInput = document.getElementById('postImage');
+    const category = document.getElementById('postCategory').value;
+    
+    if (!title || !content || !location || !category) {
+        alert('Please fill in all fields');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const post = {
+            id: Date.now(),
+            title,
+            content,
+            location,
+            category,
+            image: imageInput.files.length > 0 ? e.target.result : null,
+            date: new Date().toLocaleDateString(),
+            comments: []
+        };
+
+        posts.unshift(post);
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        adminPanel.style.display = 'none';
+        displayPosts();
+        clearForm();
+    };
+
+    if (imageInput.files.length > 0) {
+        reader.readAsDataURL(imageInput.files[0]);
+    } else {
+        const post = {
+            id: Date.now(),
+            title,
+            content,
+            location,
+            category,
+            image: null,
+            date: new Date().toLocaleDateString(),
+            comments: []
+        };
+        
+        posts.unshift(post);
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+        adminPanel.style.display = 'none';
+        displayPosts();
+        clearForm();
+    }
+}
+
 // Initial display
 displayPosts();

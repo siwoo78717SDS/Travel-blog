@@ -16,6 +16,16 @@
     </nav>
 
     <main>
+        <div class="sidebar">
+            <h3>Categories</h3>
+            <ul id="categories">
+                <li><a href="#" data-category="all" class="active">All Posts</a></li>
+                <li><a href="#" data-category="food">Food & Cuisine</a></li>
+                <li><a href="#" data-category="culture">Culture</a></li>
+                <li><a href="#" data-category="attractions">Attractions</a></li>
+                <li><a href="#" data-category="tips">Travel Tips</a></li>
+            </ul>
+        </div>
         <section id="blog-posts">
             <h2>Latest Travel Posts</h2>
             <div class="blog-grid" id="blogGrid">
@@ -37,6 +47,13 @@
                 <input type="text" id="postTitle" placeholder="Title">
                 <textarea id="postContent" placeholder="Write your post content"></textarea>
                 <input type="text" id="postLocation" placeholder="Enter destination">
+                <select id="postCategory">
+                    <option value="">Select a category</option>
+                    <option value="food">Food & Cuisine</option>
+                    <option value="culture">Culture</option>
+                    <option value="attractions">Attractions</option>
+                    <option value="tips">Travel Tips</option>
+                </select>
                 <input type="file" id="postImage" accept="image/*">
                 <div id="imagePreview"></div>
                 <button id="createPost">Create Post</button>
