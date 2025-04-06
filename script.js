@@ -239,10 +239,30 @@ loginBtn.addEventListener('click', () => {
 });
 document.getElementById('createPost').addEventListener('click', createPost);
 
+// Store last location before modal
+let lastLocation = null;
+
 // Close modals when clicking outside
 window.addEventListener('click', (e) => {
-    if (e.target === loginModal) loginModal.style.display = 'none';
-    if (e.target === adminPanel) adminPanel.style.display = 'none';
+    if (e.target === loginModal) {
+        loginModal.style.display = 'none';
+        if (lastLocation) window.history.pushState({}, '', lastLocation);
+    }
+    if (e.target === adminPanel) {
+        adminPanel.style.display = 'none';
+        if (lastLocation) window.history.pushState({}, '', lastLocation);
+    }
+});
+
+// Store location before showing modal
+function showModal(modal) {
+    lastLocation = window.location.href;
+    modal.style.display = 'block';
+}
+
+// Homepage navigation
+document.querySelector('nav h1').addEventListener('click', () => {
+    window.location.href = '/';
 });
 
 // Tab switching functionality

@@ -362,3 +362,8 @@ button:hover {
     color: #666;
     margin: 5px 0;
 }
+
+nav h1 {
+    color: white;
+    cursor: pointer;
+}
