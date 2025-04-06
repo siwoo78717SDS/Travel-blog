@@ -274,25 +274,14 @@ function displayFilteredPosts(filteredPosts) {
 }
 
 
-// Placeholder for ReplDB initialization (replace with actual implementation)
+// Initialize ReplDB
 async function initReplDB() {
-    // Replace this with your actual ReplDB initialization code
-    // This is a placeholder, you'll need to adapt this to your ReplDB setup.
     return {
         async get(key) {
-            // Fetch from ReplDB
-            const value = await fetch(`/db?key=${key}`).then(res => res.text());
-            return value;
+            return localStorage.getItem(key);
         },
         async set(key, value) {
-            // Save to ReplDB
-            await fetch(`/db`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ key, value })
-              });
+            localStorage.setItem(key, value);
         }
     };
 }
