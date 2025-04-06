@@ -478,15 +478,15 @@ function showAdminBenefits() {
     const adminBenefits = `
         <div class="admin-benefits">
             <h3>Admin Benefits & Controls:</h3>
-            <ul>
-                <li>Create and edit blog posts</li>
-                <li>Manage all user accounts</li>
-                <li>Ban/unban users (temporary or permanent)</li>
-                <li>Add or remove admin privileges</li>
-                <li>Manage member content access</li>
-                <li>Add new destinations</li>
-                <li>Monitor user activity</li>
-            </ul>
+            <div class="admin-controls">
+                <button onclick="switchTab('posts')" class="admin-control-btn">Create and Edit Posts</button>
+                <button onclick="switchTab('members')" class="admin-control-btn">Manage User Accounts</button>
+                <button onclick="switchTab('members')" class="admin-control-btn">User Ban Controls</button>
+                <button onclick="switchTab('members')" class="admin-control-btn">Admin Privileges</button>
+                <button onclick="switchTab('members')" class="admin-control-btn">Member Content Access</button>
+                <button onclick="switchTab('destinations')" class="admin-control-btn">Manage Destinations</button>
+                <button onclick="showActivityMonitor()" class="admin-control-btn">Monitor Activity</button>
+            </div>
         </div>
     `;
     
@@ -494,6 +494,21 @@ function showAdminBenefits() {
     if (!document.querySelector('.admin-benefits')) {
         adminTabs.insertAdjacentHTML('afterend', adminBenefits);
     }
+}
+
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    const targetTab = document.querySelector(`[data-tab="${tabName}"]`);
+    if (targetTab) {
+        targetTab.classList.add('active');
+        document.getElementById(`${tabName}-tab`).classList.add('active');
+    }
+}
+
+function showActivityMonitor() {
+    alert('Activity monitoring coming soon!');
 }
 
 // Initialize ReplDB
