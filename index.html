@@ -55,7 +55,12 @@
 
         <div id="admin-panel" class="modal">
             <div class="modal-content">
-                <h2>Create New Post</h2>
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="posts">Create Post</button>
+                    <button class="tab-btn" data-tab="destinations">Manage Destinations</button>
+                </div>
+                <div id="posts-tab" class="tab-content active">
+                    <h2>Create New Post</h2>
                 <input type="text" id="postTitle" placeholder="Title">
                 <textarea id="postContent" placeholder="Write your post content"></textarea>
                 <input type="text" id="postLocation" placeholder="Enter destination">
@@ -69,6 +74,13 @@
                 <input type="file" id="postImage" accept="image/*">
                 <div id="imagePreview"></div>
                 <button id="createPost">Create Post</button>
+                </div>
+                <div id="destinations-tab" class="tab-content">
+                    <h2>Add New Destination</h2>
+                    <input type="text" id="newDestination" placeholder="Enter new destination name">
+                    <button id="addDestination">Add Destination</button>
+                    <div id="destinationsList"></div>
+                </div>
             </div>
         </div>
     </main>

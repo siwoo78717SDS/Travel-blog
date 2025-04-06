@@ -141,6 +141,31 @@ main {
     text-align: center;
 }
 
+.admin-tabs {
+    margin-bottom: 1rem;
+}
+
+.tab-btn {
+    background: #f0f0f0;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    background: #2ecc71;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
 input, textarea, select {
     width: 100%;
     padding: 0.5rem;

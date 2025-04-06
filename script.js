@@ -41,6 +41,17 @@ window.addEventListener('click', (e) => {
     if (e.target === adminPanel) adminPanel.style.display = 'none';
 });
 
+// Tab switching functionality
+document.querySelectorAll('.tab-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        button.classList.add('active');
+        document.getElementById(`${button.dataset.tab}-tab`).classList.add('active');
+    });
+});
+
 // Check password
 function checkPassword() {
     const password = document.getElementById('passwordInput').value;
@@ -50,9 +61,44 @@ function checkPassword() {
         adminPanel.style.display = 'block';
         loginBtn.textContent = 'Add Post';
         loginBtn.onclick = () => adminPanel.style.display = 'block';
+        updateDestinationsList();
     } else {
         alert('Incorrect password!');
     }
+}
+
+// Destination management
+document.getElementById('addDestination').addEventListener('click', async () => {
+    const newDestination = document.getElementById('newDestination').value.trim().toLowerCase();
+    if (!newDestination) return;
+
+    const destinationList = document.querySelector('#categories');
+    const newDestinationHtml = `
+        <li class="destination-category">
+            <a href="#" data-destination="${newDestination}">${newDestination}</a>
+            <ul class="subcategories">
+                <li><a href="#" data-destination="${newDestination}" data-category="food">Food</a></li>
+                <li><a href="#" data-destination="${newDestination}" data-category="culture">Culture</a></li>
+                <li><a href="#" data-destination="${newDestination}" data-category="attractions">Attractions</a></li>
+            </ul>
+        </li>
+    `;
+    destinationList.insertAdjacentHTML('beforeend', newDestinationHtml);
+    
+    document.getElementById('newDestination').value = '';
+    document.getElementById('postLocation').innerHTML += `<option value="${newDestination}">${newDestination}</option>`;
+    updateDestinationsList();
+});
+
+function updateDestinationsList() {
+    const destinations = Array.from(document.querySelectorAll('[data-destination]'))
+        .map(el => el.dataset.destination)
+        .filter((value, index, self) => self.indexOf(value) === index && value !== 'all');
+    
+    const destinationsList = document.getElementById('destinationsList');
+    destinationsList.innerHTML = destinations.map(dest => 
+        `<div class="destination-item">${dest}</div>`
+    ).join('');
 }
 
 // Create new post
