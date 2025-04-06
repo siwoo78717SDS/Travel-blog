@@ -37,6 +37,11 @@ document.getElementById('registerBtn').addEventListener('click', () => {
     document.getElementById('register-modal').style.display = 'block';
 });
 
+function showAdminLoginModal() {
+    document.getElementById('login-modal').style.display = 'block';
+    document.getElementById('loginUsername').value = 'admin';
+}
+
 document.getElementById('submitRegister').addEventListener('click', () => {
     const username = document.getElementById('regUsername').value;
     const email = document.getElementById('regEmail').value;
