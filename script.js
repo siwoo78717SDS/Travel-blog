@@ -78,6 +78,13 @@ document.getElementById('submitLogin').addEventListener('click', async () => {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
 
+    if (username === 'admin' && password === ADMIN_PASSWORD) {
+        currentUser = { username: 'admin', isAdmin: true };
+        document.getElementById('login-modal').style.display = 'none';
+        updateUIForUser();
+        return;
+    }
+
     const user = users.find(u => u.username === username && u.password === password);
     if (!user) {
         alert('Invalid credentials');
