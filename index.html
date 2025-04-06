@@ -17,13 +17,25 @@
 
     <main>
         <div class="sidebar">
-            <h3>Categories</h3>
+            <h3>Destinations</h3>
             <ul id="categories">
-                <li><a href="#" data-category="all" class="active">All Posts</a></li>
-                <li><a href="#" data-category="food">Food & Cuisine</a></li>
-                <li><a href="#" data-category="culture">Culture</a></li>
-                <li><a href="#" data-category="attractions">Attractions</a></li>
-                <li><a href="#" data-category="tips">Travel Tips</a></li>
+                <li><a href="#" data-destination="all" class="active">All Posts</a></li>
+                <li class="destination-category">
+                    <a href="#" data-destination="vietnam">Vietnam</a>
+                    <ul class="subcategories">
+                        <li><a href="#" data-destination="vietnam" data-category="food">Food</a></li>
+                        <li><a href="#" data-destination="vietnam" data-category="culture">Culture</a></li>
+                        <li><a href="#" data-destination="vietnam" data-category="attractions">Attractions</a></li>
+                    </ul>
+                </li>
+                <li class="destination-category">
+                    <a href="#" data-destination="thailand">Thailand</a>
+                    <ul class="subcategories">
+                        <li><a href="#" data-destination="thailand" data-category="food">Food</a></li>
+                        <li><a href="#" data-destination="thailand" data-category="culture">Culture</a></li>
+                        <li><a href="#" data-destination="thailand" data-category="attractions">Attractions</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <section id="blog-posts">

@@ -174,17 +174,33 @@ function clearForm() {
 document.getElementById('categories').addEventListener('click', (e) => {
     if (e.target.tagName === 'A') {
         e.preventDefault();
+        const destination = e.target.dataset.destination;
         const category = e.target.dataset.category;
 
-        // Update active state
+        // Update active states
         document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
         e.target.classList.add('active');
 
+        // Toggle destination subcategories
+        if (destination && !category) {
+            const parentLi = e.target.closest('.destination-category');
+            document.querySelectorAll('.destination-category').forEach(li => li.classList.remove('active'));
+            if (parentLi) parentLi.classList.add('active');
+        }
+
         // Filter posts
-        if (category === 'all') {
+        if (destination === 'all') {
             displayPosts();
-        } else {
-            const filteredPosts = posts.filter(post => post.category === category);
+        } else if (destination && category) {
+            const filteredPosts = posts.filter(post => 
+                post.location.toLowerCase() === destination && 
+                post.category === category
+            );
+            displayFilteredPosts(filteredPosts);
+        } else if (destination) {
+            const filteredPosts = posts.filter(post => 
+                post.location.toLowerCase() === destination
+            );
             displayFilteredPosts(filteredPosts);
         }
     }

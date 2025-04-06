@@ -80,6 +80,15 @@ main {
     color: white;
 }
 
+.subcategories {
+    margin-left: 1.5rem;
+    display: none;
+}
+
+.destination-category.active .subcategories {
+    display: block;
+}
+
 #blog-posts {
     flex: 1;
     padding: 2rem;
