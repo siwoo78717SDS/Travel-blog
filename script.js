@@ -117,17 +117,23 @@ function updateUIForUser() {
     const userInfo = document.getElementById('userInfo');
     const userDisplay = document.getElementById('userDisplay');
     const adminSettingsBtn = document.getElementById('adminSettingsBtn');
+    const adminPanel = document.getElementById('admin-panel');
 
     if (currentUser) {
-        adminSettingsBtn.style.display = currentUser.isAdmin ? 'inline-block' : 'none';
-        adminSettingsBtn.onclick = () => {
-            adminPanel.style.display = 'block';
-            backBtn.style.display = 'block';
-            showAdminBenefits();
-        };
+        if (currentUser.isAdmin) {
+            adminSettingsBtn.style.display = 'inline-block';
+            adminSettingsBtn.onclick = () => {
+                adminPanel.style.display = 'block';
+                backBtn.style.display = 'block';
+                showAdminBenefits();
+                displayMembers(); // Show member list when admin panel opens
+            };
+        } else {
+            adminSettingsBtn.style.display = 'none';
+        }
         authButtons.style.display = 'none';
         userInfo.style.display = 'flex';
-        userDisplay.textContent = `Welcome, ${currentUser.username}`;
+        userDisplay.textContent = `Welcome, ${currentUser.username}${currentUser.isAdmin ? ' (Admin)' : ''}`;
         if (currentUser.isAdmin) {
             document.getElementById('loginBtn').textContent = 'Admin Panel';
             document.getElementById('loginBtn').onclick = () => {
@@ -475,25 +481,45 @@ function displayFilteredPosts(filteredPosts) {
 
 // Show admin benefits
 function showAdminBenefits() {
+    if (!currentUser?.isAdmin) return;
+    
     const adminBenefits = `
         <div class="admin-benefits">
             <h3>Admin Benefits & Controls:</h3>
             <div class="admin-controls">
-                <button onclick="switchTab('posts')" class="admin-control-btn">Create and Edit Posts</button>
-                <button onclick="switchTab('members')" class="admin-control-btn">Manage User Accounts</button>
-                <button onclick="switchTab('members')" class="admin-control-btn">User Ban Controls</button>
-                <button onclick="switchTab('members')" class="admin-control-btn">Admin Privileges</button>
-                <button onclick="switchTab('members')" class="admin-control-btn">Member Content Access</button>
-                <button onclick="switchTab('destinations')" class="admin-control-btn">Manage Destinations</button>
+                <button onclick="switchTab('posts'); document.querySelector('[data-tab=posts]').click();" class="admin-control-btn">Create and Edit Posts</button>
+                <button onclick="switchTab('members'); displayMembers();" class="admin-control-btn">Manage User Accounts</button>
+                <button onclick="switchTab('destinations'); updateDestinationsList();" class="admin-control-btn">Manage Destinations</button>
                 <button onclick="showActivityMonitor()" class="admin-control-btn">Monitor Activity</button>
             </div>
         </div>
     `;
     
     const adminTabs = document.querySelector('.admin-tabs');
-    if (!document.querySelector('.admin-benefits')) {
-        adminTabs.insertAdjacentHTML('afterend', adminBenefits);
+    // Remove existing benefits if present
+    const existingBenefits = document.querySelector('.admin-benefits');
+    if (existingBenefits) {
+        existingBenefits.remove();
     }
+    adminTabs.insertAdjacentHTML('afterend', adminBenefits);
+}
+
+// Show activity monitor with actual data
+function showActivityMonitor() {
+    if (!currentUser?.isAdmin) return;
+    
+    const activity = {
+        totalUsers: users.length,
+        totalPosts: posts.length,
+        bannedUsers: users.filter(u => u.isBanned).length,
+        admins: users.filter(u => u.isAdmin).length
+    };
+    
+    alert(`Activity Statistics:\n
+    Total Users: ${activity.totalUsers}
+    Total Posts: ${activity.totalPosts}
+    Banned Users: ${activity.bannedUsers}
+    Admin Users: ${activity.admins}`);
 }
 
 function switchTab(tabName) {
