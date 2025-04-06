@@ -207,6 +207,39 @@ button:hover {
     margin: 1rem 0;
 }
 
+.member-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+}
+
+.member-item button {
+    margin: 0 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+}
+
+#userInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+}
+
+#authButtons {
+    display: flex;
+    gap: 1rem;
+}
+
+.members-only {
+    border: 2px solid #gold;
+    background: #fff8e8;
+}
+
 .comments-section {
     margin-top: 1rem;
     padding-top: 1rem;

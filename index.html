@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,14 @@
         <h1>Southeast Asia Travel Blog</h1>
         <div class="nav-buttons">
             <a href="#" id="backBtn" style="display: none;">← Back</a>
-            <a href="#" id="loginBtn">Admin Login</a>
+            <div id="authButtons">
+                <button id="loginBtn">Sign In</button>
+                <button id="registerBtn">Register</button>
+            </div>
+            <div id="userInfo" style="display: none;">
+                <span id="userDisplay"></span>
+                <button id="signoutBtn">Sign Out</button>
+            </div>
         </div>
     </nav>
 
@@ -40,27 +48,38 @@
         </div>
         <section id="blog-posts">
             <h2>Latest Travel Posts</h2>
-            <div class="blog-grid" id="blogGrid">
-                <!-- Posts will be loaded here -->
-            </div>
+            <div class="blog-grid" id="blogGrid"></div>
         </section>
+    </main>
 
-        <div id="login-modal" class="modal">
-            <div class="modal-content">
-                <h2>Admin Login</h2>
-                <input type="password" id="passwordInput" placeholder="Enter password">
-                <button id="submitPassword">Login</button>
-            </div>
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2>Sign In</h2>
+            <input type="text" id="loginUsername" placeholder="Username">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button id="submitLogin">Login</button>
         </div>
+    </div>
 
-        <div id="admin-panel" class="modal">
-            <div class="modal-content">
-                <div class="admin-tabs">
-                    <button class="tab-btn active" data-tab="posts">Create Post</button>
-                    <button class="tab-btn" data-tab="destinations">Manage Destinations</button>
-                </div>
-                <div id="posts-tab" class="tab-content active">
-                    <h2>Create New Post</h2>
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <h2>Register</h2>
+            <input type="text" id="regUsername" placeholder="Username">
+            <input type="email" id="regEmail" placeholder="Email">
+            <input type="password" id="regPassword" placeholder="Password">
+            <button id="submitRegister">Register</button>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="modal">
+        <div class="modal-content">
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="posts">Create Post</button>
+                <button class="tab-btn" data-tab="members">Manage Members</button>
+                <button class="tab-btn" data-tab="destinations">Manage Destinations</button>
+            </div>
+            <div id="posts-tab" class="tab-content active">
+                <h2>Create New Post</h2>
                 <input type="text" id="postTitle" placeholder="Title">
                 <textarea id="postContent" placeholder="Write your post content"></textarea>
                 <input type="text" id="postLocation" placeholder="Enter destination">
@@ -69,22 +88,25 @@
                     <option value="food">Food & Cuisine</option>
                     <option value="culture">Culture</option>
                     <option value="attractions">Attractions</option>
-                    <option value="tips">Travel Tips</option>
+                    <option value="members">Members Only Content</option>
                 </select>
                 <input type="file" id="postImage" accept="image/*">
                 <div id="imagePreview"></div>
                 <button id="createPost">Create Post</button>
-                </div>
-                <div id="destinations-tab" class="tab-content">
-                    <h2>Add New Destination</h2>
-                    <input type="text" id="newDestination" placeholder="Enter new destination name">
-                    <button id="addDestination">Add Destination</button>
-                    <div id="destinationsList"></div>
-                </div>
+            </div>
+            <div id="members-tab" class="tab-content">
+                <h2>Manage Members</h2>
+                <div id="membersList"></div>
+            </div>
+            <div id="destinations-tab" class="tab-content">
+                <h2>Add New Destination</h2>
+                <input type="text" id="newDestination" placeholder="Enter new destination name">
+                <button id="addDestination">Add Destination</button>
+                <div id="destinationsList"></div>
             </div>
         </div>
-    </main>
-    <script src="https://replit.com/public/js/replit-badge.js"></script>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
