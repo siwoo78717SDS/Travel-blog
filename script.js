@@ -545,7 +545,66 @@ function switchTab(tabName) {
 }
 
 function showActivityMonitor() {
-    alert('Activity monitoring coming soon!');
+    if (!currentUser?.isAdmin) return;
+    
+    // Calculate analytics
+    const userAnalytics = {
+        totalUsers: users.length,
+        activeUsers: users.filter(u => !u.isBanned).length,
+        totalPosts: posts.length,
+        postsPerUser: (posts.length / (users.length || 1)).toFixed(2),
+        memberOnlyPosts: posts.filter(p => p.isMembersOnly).length,
+        categoriesUsed: [...new Set(posts.map(p => p.category))].length,
+        mostActiveLocation: getMostFrequent(posts.map(p => p.location)),
+        mostActiveCategory: getMostFrequent(posts.map(p => p.category)),
+        userEngagement: `${((posts.reduce((acc, post) => acc + post.comments.length, 0) / posts.length) || 0).toFixed(2)} comments/post`
+    };
+
+    const analyticsHTML = `
+        <div class="analytics-modal">
+            <h2>User Analytics Dashboard</h2>
+            <div class="analytics-grid">
+                <div class="stat-card">
+                    <h3>Users</h3>
+                    <p>Total: ${userAnalytics.totalUsers}</p>
+                    <p>Active: ${userAnalytics.activeUsers}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Posts</h3>
+                    <p>Total: ${userAnalytics.totalPosts}</p>
+                    <p>Per User: ${userAnalytics.postsPerUser}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Content</h3>
+                    <p>Member Posts: ${userAnalytics.memberOnlyPosts}</p>
+                    <p>Categories: ${userAnalytics.categoriesUsed}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Engagement</h3>
+                    <p>Most Active: ${userAnalytics.mostActiveLocation}</p>
+                    <p>Top Category: ${userAnalytics.mostActiveCategory}</p>
+                    <p>Engagement: ${userAnalytics.userEngagement}</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const modalDiv = document.createElement('div');
+    modalDiv.className = 'modal';
+    modalDiv.style.display = 'block';
+    modalDiv.innerHTML = `
+        <div class="modal-content">
+            ${analyticsHTML}
+            <button onclick="this.closest('.modal').remove()">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modalDiv);
+}
+
+function getMostFrequent(arr) {
+    return arr.length ? arr.sort((a,b) =>
+        arr.filter(v => v === a).length - arr.filter(v => v === b).length
+    ).pop() : 'None';
 }
 
 // Initialize ReplDB
