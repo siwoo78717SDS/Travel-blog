@@ -272,8 +272,37 @@ button:hover {
 }
 
 .members-only {
-    border: 2px solid #gold;
+    border: 2px solid gold;
     background: #fff8e8;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: auto;
+}
+
+.members-only-post {
+    border: 2px solid gold;
+    background: #fff8e8;
+    position: relative;
+}
+
+.members-only-post::before {
+    content: '👑 Members Only';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: gold;
+    color: #000;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
 }
 
 .comments-section {

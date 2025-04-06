@@ -307,11 +307,16 @@ function updateDestinationsList() {
 
 // Create new post
 async function createPost() {
+    if (!currentUser) {
+        alert('Please sign in to create posts');
+        return;
+    }
     const title = document.getElementById('postTitle').value;
     const content = document.getElementById('postContent').value;
     const location = document.getElementById('postLocation').value;
     const imageInput = document.getElementById('postImage');
     const category = document.getElementById('postCategory').value;
+    const isMembersOnly = document.getElementById('membersOnly').checked;
 
     if (!title || !content || !location || !category) {
         alert('Please fill in all fields');
@@ -364,7 +369,13 @@ async function createPost() {
 
 // Display posts
 function displayPosts() {
-    blogGrid.innerHTML = posts.map(post => `
+    const filteredPosts = posts.filter(post => {
+        if (post.isMembersOnly && !currentUser) return false;
+        if (post.category === 'tips' && !currentUser) return false;
+        return true;
+    });
+    
+    blogGrid.innerHTML = filteredPosts.map(post => `
         <div class="blog-post">
             <span class="location-badge">${post.location}</span>
             <h3>${post.title}</h3>

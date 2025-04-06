@@ -36,6 +36,7 @@
                         <li><a href="#" data-destination="vietnam" data-category="food">Food</a></li>
                         <li><a href="#" data-destination="vietnam" data-category="culture">Culture</a></li>
                         <li><a href="#" data-destination="vietnam" data-category="attractions">Attractions</a></li>
+                        <li><a href="#" data-destination="vietnam" data-category="tips" class="members-only">Travel Tips</a></li>
                     </ul>
                 </li>
                 <li class="destination-category">
@@ -90,8 +91,13 @@
                     <option value="food">Food & Cuisine</option>
                     <option value="culture">Culture</option>
                     <option value="attractions">Attractions</option>
+                    <option value="tips">Travel Tips</option>
                     <option value="members">Members Only Content</option>
                 </select>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="membersOnly">
+                    <label for="membersOnly">Members Only Content</label>
+                </div>
                 <input type="file" id="postImage" accept="image/*">
                 <div id="imagePreview"></div>
                 <button id="createPost">Create Post</button>
