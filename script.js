@@ -2,6 +2,7 @@ const ADMIN_PASSWORD = '78717';
 let currentUser = null;
 let users = [];
 let bannedIPs = [];
+let posts = [];
 
 // Initialize from localStorage
 function initializeData() {
@@ -185,8 +186,6 @@ const loginBtn = document.getElementById('loginBtn');
 const loginModal = document.getElementById('login-modal');
 const adminPanel = document.getElementById('admin-panel');
 const blogGrid = document.getElementById('blogGrid');
-
-let posts = []; // Initialize posts as an empty array
 
 // Fetch posts from ReplDB on page load
 async function loadPosts() {
