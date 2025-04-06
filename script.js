@@ -116,8 +116,15 @@ function updateUIForUser() {
     const authButtons = document.getElementById('authButtons');
     const userInfo = document.getElementById('userInfo');
     const userDisplay = document.getElementById('userDisplay');
+    const adminSettingsBtn = document.getElementById('adminSettingsBtn');
 
     if (currentUser) {
+        adminSettingsBtn.style.display = currentUser.isAdmin ? 'inline-block' : 'none';
+        adminSettingsBtn.onclick = () => {
+            adminPanel.style.display = 'block';
+            backBtn.style.display = 'block';
+            showAdminBenefits();
+        };
         authButtons.style.display = 'none';
         userInfo.style.display = 'flex';
         userDisplay.textContent = `Welcome, ${currentUser.username}`;
