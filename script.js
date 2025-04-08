@@ -429,7 +429,6 @@ function displayPosts() {
     
     blogGrid.innerHTML = allPosts;
 }
-}
 
 async function addComment(postId, inputElement) {
     const comment = inputElement.value.trim();
