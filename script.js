@@ -424,7 +424,11 @@ function displayPosts() {
                 <button onclick="addComment(${post.id}, this.previousElementSibling)">Comment</button>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
+    
+    blogGrid.innerHTML = allPosts;
+}
 }
 
 async function addComment(postId, inputElement) {
