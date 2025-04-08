@@ -389,13 +389,25 @@ async function createPost() {
 
 // Display posts
 function displayPosts() {
-    const filteredPosts = posts.filter(post => {
-        if (post.isMembersOnly && !currentUser) return false;
-        if ((post.category === 'tips' || post.location === 'tips') && !currentUser) return false;
-        return true;
-    });
-    
-    blogGrid.innerHTML = filteredPosts.map(post => `
+    const allPosts = posts.map(post => {
+        if ((post.isMembersOnly || post.category === 'tips' || post.location === 'tips') && !currentUser) {
+            return `
+                <div class="blog-post member-locked">
+                    <div class="member-lock-overlay">
+                        <h3>🔒 Members Only Content</h3>
+                        <p>Please register to access exclusive travel content!</p>
+                        <button onclick="document.getElementById('register-modal').style.display='block'">Register Now</button>
+                    </div>
+                    <span class="location-badge">${post.location}</span>
+                    <h3>${post.title}</h3>
+                    <div class="blur-content">
+                        ${post.image ? `<img src="${post.image}" class="post-image" alt="${post.title}">` : ''}
+                        <p>${post.content}</p>
+                    </div>
+                </div>
+            `;
+        }
+        return `
         <div class="blog-post">
             <span class="location-badge">${post.location}</span>
             <h3>${post.title}</h3>

@@ -369,3 +369,39 @@ nav h1 {
     color: white;
     cursor: pointer;
 }
+
+.member-locked {
+    position: relative;
+}
+
+.member-lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
+}
+
+.member-lock-overlay h3 {
+    margin-bottom: 10px;
+}
+
+.member-lock-overlay button {
+    background: #f1c40f;
+    margin-top: 15px;
+}
+
+.member-lock-overlay button:hover {
+    background: #f39c12;
+}
+
+.blur-content {
+    filter: blur(5px);
+}
