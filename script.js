@@ -518,9 +518,9 @@ function showAdminBenefits() {
         <div class="admin-benefits">
             <h3>Admin Benefits & Controls:</h3>
             <div class="admin-controls">
-                <button onclick="switchTab('posts'); document.querySelector('[data-tab=posts]').click();" class="admin-control-btn">Create and Edit Posts</button>
-                <button onclick="switchTab('members'); displayMembers();" class="admin-control-btn">Manage User Accounts</button>
-                <button onclick="switchTab('destinations'); updateDestinationsList();" class="admin-control-btn">Manage Destinations</button>
+                <button onclick="handleAdminControl('posts')" class="admin-control-btn">Create and Edit Posts</button>
+                <button onclick="handleAdminControl('members')" class="admin-control-btn">Manage User Accounts</button>
+                <button onclick="handleAdminControl('destinations')" class="admin-control-btn">Manage Destinations</button>
                 <button onclick="showActivityMonitor()" class="admin-control-btn">Monitor Activity</button>
             </div>
         </div>
@@ -637,4 +637,26 @@ async function initReplDB() {
             localStorage.setItem(key, value);
         }
     };
+}
+function handleAdminControl(tab) {
+    // Switch to the correct tab
+    const tabButton = document.querySelector(`[data-tab="${tab}"]`);
+    if (tabButton) {
+        tabButton.click();
+    }
+    
+    // Perform tab-specific actions
+    switch(tab) {
+        case 'posts':
+            document.getElementById('posts-tab').classList.add('active');
+            break;
+        case 'members':
+            document.getElementById('members-tab').classList.add('active');
+            displayMembers();
+            break;
+        case 'destinations':
+            document.getElementById('destinations-tab').classList.add('active');
+            updateDestinationsList();
+            break;
+    }
 }
