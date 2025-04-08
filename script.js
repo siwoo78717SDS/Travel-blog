@@ -353,7 +353,8 @@ async function createPost() {
             category,
             image: imageInput.files.length > 0 ? e.target.result : null,
             date: new Date().toLocaleDateString(),
-            comments: []
+            comments: [],
+            likes: [] // Add likes array
         };
 
         posts.unshift(post);
@@ -375,7 +376,8 @@ async function createPost() {
             category,
             image: null,
             date: new Date().toLocaleDateString(),
-            comments: []
+            comments: [],
+            likes: [] // Add likes array
         };
 
         posts.unshift(post);
@@ -414,19 +416,17 @@ function displayPosts() {
             ${post.image ? `<img src="${post.image}" class="post-image" alt="${post.title}">` : ''}
             <p>${post.content}</p>
             <small>${post.date}</small>
-            ${isAdmin ? `<button class="edit-button" onclick="editPost(${post.id})">Edit</button>` : ''}
-            <div class="comments-section">
-                <h4>Comments</h4>
-                ${post.comments.map(comment => `
-                    <div class="comment">${comment}</div>
-                `).join('')}
-                <input type="text" class="comment-input" placeholder="Add a comment">
-                <button onclick="addComment(${post.id}, this.previousElementSibling)">Comment</button>
+            <div class="post-actions">
+                ${isAdmin ? `<button class="edit-button" onclick="editPost(${post.id})">Edit</button>` : ''}
+                <button class="like-button ${post.likes && post.likes.includes(currentUser?.username) ? 'liked' : ''}" 
+                    onclick="likePost(${post.id})">
+                    ❤️ ${post.likes ? post.likes.length : 0}
+                </button>
             </div>
         </div>
     `;
     }).join('');
-    
+
     blogGrid.innerHTML = allPosts;
 }
 
@@ -510,14 +510,12 @@ function displayFilteredPosts(filteredPosts) {
             ${post.image ? `<img src="${post.image}" class="post-image" alt="${post.title}">` : ''}
             <p>${post.content}</p>
             <small>${post.date}</small>
-            ${isAdmin ? `<button class="edit-button" onclick="editPost(${post.id})">Edit</button>` : ''}
-            <div class="comments-section">
-                <h4>Comments</h4>
-                ${post.comments.map(comment => `
-                    <div class="comment">${comment}</div>
-                `).join('')}
-                <input type="text" class="comment-input" placeholder="Add a comment">
-                <button onclick="addComment(${post.id}, this.previousElementSibling)">Comment</button>
+            <div class="post-actions">
+                ${isAdmin ? `<button class="edit-button" onclick="editPost(${post.id})">Edit</button>` : ''}
+                <button class="like-button ${post.likes && post.likes.includes(currentUser?.username) ? 'liked' : ''}" 
+                    onclick="likePost(${post.id})">
+                    ❤️ ${post.likes ? post.likes.length : 0}
+                </button>
             </div>
         </div>
     `).join('');
@@ -528,7 +526,7 @@ function displayFilteredPosts(filteredPosts) {
 // Show admin benefits
 function showAdminBenefits() {
     if (!currentUser?.isAdmin) return;
-    
+
     const adminBenefits = `
         <div class="admin-benefits">
             <h3>Admin Benefits & Controls:</h3>
@@ -540,7 +538,7 @@ function showAdminBenefits() {
             </div>
         </div>
     `;
-    
+
     const adminTabs = document.querySelector('.admin-tabs');
     // Remove existing benefits if present
     const existingBenefits = document.querySelector('.admin-benefits');
@@ -553,14 +551,14 @@ function showAdminBenefits() {
 // Show activity monitor with actual data
 function showActivityMonitor() {
     if (!currentUser?.isAdmin) return;
-    
+
     const activity = {
         totalUsers: users.length,
         totalPosts: posts.length,
         bannedUsers: users.filter(u => u.isBanned).length,
         admins: users.filter(u => u.isAdmin).length
     };
-    
+
     alert(`Activity Statistics:\n
     Total Users: ${activity.totalUsers}
     Total Posts: ${activity.totalPosts}
@@ -571,7 +569,7 @@ function showActivityMonitor() {
 function switchTab(tabName) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
+
     const targetTab = document.querySelector(`[data-tab="${tabName}"]`);
     if (targetTab) {
         targetTab.classList.add('active');
@@ -581,7 +579,7 @@ function switchTab(tabName) {
 
 function showActivityMonitor() {
     if (!currentUser?.isAdmin) return;
-    
+
     // Calculate analytics
     const userAnalytics = {
         totalUsers: users.length,
@@ -659,7 +657,7 @@ function handleAdminControl(tab) {
     if (tabButton) {
         tabButton.click();
     }
-    
+
     // Perform tab-specific actions
     switch(tab) {
         case 'posts':
@@ -673,5 +671,19 @@ function handleAdminControl(tab) {
             document.getElementById('destinations-tab').classList.add('active');
             updateDestinationsList();
             break;
+    }
+}
+
+async function likePost(postId) {
+    const post = posts.find(p => p.id === postId);
+    if (post && currentUser) {
+        if (post.likes.includes(currentUser.username)) {
+            post.likes = post.likes.filter(user => user !== currentUser.username);
+        } else {
+            post.likes.push(currentUser.username);
+        }
+        const db = await initReplDB();
+        await db.set('blogPosts', JSON.stringify(posts));
+        displayPosts();
     }
 }
