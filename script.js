@@ -391,7 +391,7 @@ async function createPost() {
 function displayPosts() {
     const filteredPosts = posts.filter(post => {
         if (post.isMembersOnly && !currentUser) return false;
-        if (post.category === 'tips' && !currentUser) return false;
+        if ((post.category === 'tips' || post.location === 'tips') && !currentUser) return false;
         return true;
     });
     
